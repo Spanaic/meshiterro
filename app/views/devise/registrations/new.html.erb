@@ -12,7 +12,11 @@
 
                       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                       <%# 変数のresource は単数系。スペルミスも要注意 %>
-                      <%# resourceがどこから来てるのか不明。記述も不明なので理解のため、明日要チェック %>
+                      <%# resourceは複数のモデルを参照にするためのdevise特有の抽象的な呼び方 %>
+                      <%# as:オプションはルーティングに名前を指定できる　resource_nameをキーとしてモデルを特定 or モデルをresource_nameと呼ぶ（path指定のときのみたく） %>
+                      <%# ？？as:オプションを使う時の命名規則はある？もしかして作成した 「t.string :name」に従うひつようあり？ %>
+                      <%# url:オプションは'submit'実行時のアクション先を指定している。今回の場合だと’POST’メソッドによるルーティングでregistration_pathを通るため、createアクションが実行される %>
+                      
                           <%= devise_error_messages! %>
                         <div class="form-group has-icon">
                           <label class="control-label sr-only" for="inputName">Name</label>

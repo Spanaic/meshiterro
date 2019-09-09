@@ -1,0 +1,122 @@
+<section class="sct-color-1 slice">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 post_images_container">
+        <div class="post-item">
+
+          <div class="post-meta-top">
+            <div class="post-image">
+              <%# <a href="images/sample-post1.jpg" class="theater"> %>
+                <!-- <img src="images/sample-post1.jpg"> -->
+                <%# <%= image_tag('sample-post1.jpg') %>
+                <%= attachment_image_tag @post_image, :image %>
+                <%# 今回もshowアクションに定義された変数@post_imageをしてしている %>
+              <%# </a> %>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <h2 class="post-title">ここにタイトル</h2>
+            <ul class="meta-info-cells v4 float-wrapper">
+              <li>
+                <i class="fa fa-user"></i>By
+                <%# <a href="#">投稿者名</a> %>
+                <%= @post_image.user.name %>
+              </li>
+              <li>
+                <i class="fa fa-calendar"></i><%= @post_image.created_at.strftime('%Y/%m/%d') %>
+                <%# strftime('%Y/%m/%d')は年月日の表示フォーマットへ変換される。 %>
+              </li>
+              <%# いいねアイコンをこちらに実装していく %>
+              <% if @post_image.favorited_by?(current_user) %>
+              <%# # 変数に代入されたdbのレコードにfavorited_by?メソッドを実行。引数にはdeviseで使用可能となるcurrent_userを使用
+              # current_user.idが@post_image.idと等しいという定義をshowアクションに記述する
+              # favorited_byメソッドはその詳細ページにいるユーザーがいいねしたかどうかを真偽で返すメソッド？ %>
+                <li>
+                <%= link_to post_image_favorites_path(@post_image), method:  :delete do %>
+                <%# 上記のままだとfavoritesコントローラに飛ばないため、resourceで作成したルートから正しいpathをたどってcreateアクション、もしくはdeleteアクションを呼び出す必要がある %>
+                <%# link_toは飛び先のURLを指定するものではなく、その部分をクリックやタップされたときに呼び出されるアクションへのpathを指定するメソッドです。 %>
+                  <i class="fa fa-heart"></i>
+                  <%= @post_image.favorites.count %> いいね
+                  <%# @post_imageに代入されてるレコードに関連したfavoritesのデータをcountしてくれ %>
+                <% end %>
+                </li>
+              <% else %>
+                <li>
+                <%= link_to post_image_favorites_path(@post_image), method:  :post do %>
+                <%# link_to do ~~ endで囲うのはアイコンに対してlink_toメソッドを有効にするため %>
+                  <i class="fa fa-heart"></i>
+                  <%= @post_image.favorites.count %> いいね
+                  <%# @post_imageに代入されてるレコードに関連したfavoritesのデータをcountしてくれ %>
+                </li>
+                <% end %>
+              <% end %>
+              <%# コメントを記述していく %>
+              <li>
+                <i class="fa fa-comment"></i>
+                <a href="#comments"><%= @post_image.post_comments.count %></a>
+              </li>
+            </ul>
+            <div class="post-content-inner mt-20">
+              <p><%= @post_image.caption %></p>
+            </div>
+          </div>
+
+          <div class="comment-list bt style-2" id="comments">
+            <div class="float-wrapper">
+              <h2 class="comment-count"><%= @post_image.post_comments.count %>件コメント</h2>
+            </div>
+            <%# ここからコメントの記述を開始 %>
+            <% @post_image.post_comments.each do |post_comment| %>
+            <%# showアクションのインスタンス変数に格納されたpost_imageのレコードに記述されたpost_commentsを.eachでスライスして、コメント1つずつを表示している %>
+            <ol>
+              <li class="comment">
+                <div class="comment-body bb">
+                  <div class="comment-avatar">
+                    <div class="avatar">
+                      <!-- <img src="images/sample-author1.jpg"> -->
+                      <%= image_tag('sample-author1.jpg') %>
+                    </div>
+                  </div>
+                  <div class="comment-text">
+                    <div class="comment-author clearfix">
+                      <a href="#"><%= post_comment.user.name %></a>
+                      <%# post_imageレコードにアソシエイトしている（ネストしている）post_commentレコードのユーザネームの値を取得 %>
+                      <%# @post_imageは記述しなくておけ。.eachの前にすでに取得しているため %>
+                      <%# post_commentのモデルにはuser_nameというカラムは存在しない。主のuserモデルからnameを呼び出すので,post_comment.user_nameは間違い %>
+                      <span class="comment-meta">
+                        <span class="comment-date"><%= post_comment.created_at.strftime('%Y/%m/%d') %></span>
+                      </span>
+                    </div>
+                    <div class="comment-entry"><%= post_comment.comment %></div>
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <% end %>
+          </div>
+          <hr>
+
+          <!-- Add comment section -->
+          <div class="section-title-wrapper style-1 v1 mt-30" id="divAddComment">
+            <h3 class="section-title left">
+              <span>コメント</span>
+            </h3>
+          </div>
+          <%# <form class="mt-20"> %>
+          <%= form_for [@post_image,@post_comment] do |f| %>
+          <%# form_forヘルパーの記述場所の特定に変数@post_image,空のレコードを作成するために変数@post_commentを配列として記述 %>
+          <%# 変数@post_commentはshowアクションで定義されていない（現時点で）ため、新たに追記する必要あり %>
+            <div class="row">
+              <div class="col-sm-12">
+                <%= f.text_area :comment, class:"form-control", rows:"5", placeholder:"コメントをここに" %>
+              </div>
+            </div>
+            <%= f.submit "送信する", class:"btn btn-lg btn-base-1 mt-20 pull-right" %>
+          <%# </form> %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+<section class="slice sct-color-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 post_image_form">
+            <div class="section-title-wrapper style-1 v1">
+              <h3 class="section-title section-title-sm left">
+                <span>画像投稿フォーム</span>
+              </h3>
+            </div>
+
+            <%# <form class="mt-20"> %>
+            <%= form_for(@post_image, url: post_images_path) do |f|%>
+            <%# post_images_pathがurl:オプションで指定されているのはsubmitした際にcreateアクションを呼び出すため（rails routesでpost_imagesコントローラのPOSTメソッドを参照 %>
+              <% if @post_image.errors.any? %>
+                <%= @post_image.errors.count %><span>件のエラーが発生しました</span>
+                <ul>
+                  <% @post_image.errors.full_messages.each do |message| %>
+                  <%# .eachの部分で=を使ってしまうとエラーメッセージの処理の結果が表示されてしまうので、必ず裏で行う処理は＝を書かないように気をつける %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+              <div class="row">
+                <div class="col-sm-12">
+                  <%# <input type="file"> %>
+                  <%= f.attachment_field :image %>
+                  <%# attachmentメソッドはrefileに用意されている画像アップロード用のメソッド %>
+                  <%# 対応するモデルに「attachment :image」を記述する。（app/models/post_image.rb） %>
+                  <%# フィールド名の指定には"_id"を除いた”image"のみで指定する %>
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group has-icon">
+                    <label class="control-label sr-only">ショップ名</label>
+                    <%# <input type="text" class="form-control" id="ショップ名" placeholder="ショップ名"> %>
+                    <%= f.text_field :shop_name, autofocu: true, class:"form-control", id:"ショップ名", placeholder:"ショップ名" %>
+                    <span class="fa fa-building form-control-icon" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <%# <textarea class="form-control" rows="3" placeholder="コメントここに"></textarea> %>
+                  <%= f.text_area :caption, autofocus: true, class:"form-control", rows:"3", placeholder:"コメントここに" %>
+                </div>
+              </div>
+              <hr>
+
+
+
+              <%= f.submit "送信", class:"btn btn-lg btn-block btn-base-1 mt-20" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

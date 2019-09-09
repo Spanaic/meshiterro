@@ -1,0 +1,61 @@
+<section class="sct-color-1 slice">
+  <div class="container-fluid masonry-container">
+    <div class="row">
+      <div class="col-md-8 col-sm-offset-2">
+        <div class="masonry-wrapper-cols">
+          <div class="masonry-gutter"></div>
+          <% @post_images.each do |post_image| %>
+          <div class="masonry-block">
+            <div class="block block-image v1">
+              <div class="block-image">
+                <div class="view view-first">
+                  <%= link_to post_image_path(post_image.id) do %>
+                  <%# <a href=""> %>
+                      <%# <%= image_tag('sample-post1.jpg') %>
+                      <%= attachment_image_tag post_image, :image %>
+                      <%# attachment_image_tagはrefileのヘルプメソッド %>
+                      <%# メソッド名　変数名, :image（_id）画像の<img>タグを生成する %>
+                      <%# モデル名が入ることもあるかもしれないが、今回の場合は.eachでスライスされた変数を指定している %>
+                  <%# </a> %>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="block-content">
+                <%= image_tag('sample-author1.jpg', class: "img-circle pull-left profile-thumb") %>
+                <h3 class="block-title">
+                  <% link_to post_image_path(post_image.id) do %>
+                    <%#　？？なぜ.idなの？＝＞　post_image/:id でURLのリンクが生成されるため　%>
+
+                    <%# <a href="#"><i class="fa fa-map-marker"></i> ショップ名</a> %>
+                    <%#= link_to "ショップ名", post_image_path(@post_image) %>
+                    <%# 上記だとずっとショップ名になってしまう %>
+                   <i class="fa fa-map-marker"></i> <%= post_image.shop_name %>
+                  <% end  %>
+                  <%# link_to パスを指定(変数を指定) do ~ end で囲んだ部分に指定したパスへのリンクを実装できる%>
+                </h3>
+
+                <%# <p>この画像に関する説明</p> %>
+               <p><%= post_image.caption %></p>
+                <ul class="inline-meta">
+                  <li>By
+                    <%# <a href="#">投稿者名</a> %>
+                    <%= post_image.user.name %>
+                    <%# n.1.カラム名 %>
+                    <%# アソシエーションされたモデル.主モデル.カラム名 %>
+                  </li>
+                  <li>
+                    <%= link_to "#{post_image.post_comments.count}コメント", post_image_path(post_image.id) %>
+                    <%# pathにpost_image.idが使われているのは、showで特定のidに飛んでいるから？他にpost_image.idが使われいてるlink_toメソッドの箇所を探す %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <% end %>
+          <%= paginate @post_images, class: "paginate" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

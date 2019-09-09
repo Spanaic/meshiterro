@@ -29,18 +29,33 @@
               <span class="icon-bar"></span>
             </button>
           </div>
+
           <div id="slidemenu">
             <ul class="nav navbar-nav navbar-right" data-hover="dropdown" data-animations="zoomIn fadeIn fadeInUp fadeIn">
-	      	  	<li class="">
-                <a href="">
-                  <span>新規登録</span>
-                </a>
+            <% if user_signed_in? %>
+              <li class="">
+                <%= link_to "ログアウト", destroy_user_session_path, method:  :delete %>
+                <%# ログアウトはセッションを破壊するということ。deleteメソッドのルーティングからdestroyアクションを呼び出す %>
               </li>
               <li class="">
-                <a href="">
-                  <span>ログイン</span>
-                </a>
+                <%= link_to "投稿フォーム", new_post_image_path %>
+                <%# ？？ログイン状態（セッションを維持している） だとIDが紐づくので変数を指定しなくてもいいのかも・・・%>
               </li>
+              <li class="">
+                <%= link_to "マイページ", "#" %>
+              </li>
+            <% else %>
+	      	  	<li class="">
+                <%# <a href="">/　aタグはlink_toメソッドに置き換わるため削除する %>
+                  <%= link_to "新規登録", new_user_registration_path %>
+                  <%# new_post_image_pathだと新規画像投稿に飛んじゃうよ！ %>
+                <%# </a> %>
+              </li>
+              <li class="">
+                  <%= link_to "ログイン", new_user_session_path %>
+                  <%# ログインを押したらsessionを新しく始めるrootをたどる必要があるため、ログイン後にリダイレクトされるrootではなく、new_user_session_pathに飛ぶ必要がある %>
+              </li>
+            <% end %>
             </ul>
           </div>
         </div>
