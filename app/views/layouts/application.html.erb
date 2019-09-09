@@ -10,7 +10,7 @@
     <title>Meshiterro</title>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,600,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-  </head> 
+  </head>
 
   <body>
 
@@ -21,7 +21,7 @@
             <a class="navbar-logo" href="/">
               <%= image_tag('logo.png') %>
             </a>
-   
+
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
@@ -61,7 +61,7 @@
         </div>
       </nav>
     </div>
-  
+
     <%= yield %>
 
    <footer class="footer style-2">
@@ -75,12 +75,13 @@
               善良な市民同士で無差別に食欲を煽るSNS
           </p>
               <%= image_tag('logo-white.png') %>
-              
+
             </div>
           </div>
           <div class="col-md-2">
             <div class="col">
-              <h4>Link</h4>
+              <h4><%= link_to "マイページ", user_path(current_user.id) %></h4>
+              <%# この場でどの変数が引数として渡されているかわからないため、deviseのヘルプメソッドであるcurrent_userを使う %>
               <ul>
                 <li>
                   <a href="" title="About">会社概要</a>
@@ -94,6 +95,6 @@
         </div>
       </div>
     </footer>
-    
+
   </body>
 </html>

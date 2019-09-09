@@ -4,6 +4,12 @@ class FavoritesController < ApplicationController
         # favorite = current_user.favorites.new(favorite_params)
         # ストロングパラメータを通したのは間違い。なぜなら今回はform_forヘルパーを使ってないから。
         # リダイレクトするので変数はローカルでオッケ
+
+        # params[:id]というのはURLを呼び出している。
+        # rails routesのパスからURLを参照した際に指定するidを指定している。
+        # モデルの選び方は呼び出すものから最短ルートで取って来れるものでオッケ
+        # params以外を使えば(find_by, whereなど)URLではなく、idを指定して呼び出したりできる
+
         favorite = current_user.favorites.new(post_image_id: post_image.id)
         # 現在ログインしているユーザのいいね情報を、favoritesモデルに入力していく
         # アソシエーションさせるために、favoritesのpost_image_idとそれに対応するpost_imageのidカラムを紐付ける

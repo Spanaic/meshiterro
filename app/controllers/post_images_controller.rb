@@ -31,7 +31,15 @@ class PostImagesController < ApplicationController
         @post_comment = PostComment.new
         # コメントを作成するときのform_forヘルパーに代入するインスタンス変数として記述
         # @post_commentの変数には PostCommentモデルで作成された空のレコードを代入する。PostImageのモデルに空のレコードをnewしてもcommentの値を入れるカラムが存在しない。
-        @post_image.id = current_user.id
+        # @post_image.user.id = current_user.id
+    end
+
+    def destroy
+        post_image = PostImage.find(params[:id])
+        post_image.destroy
+        # ローカル変数とインスタンス変数の特徴としては、1.インスタンス変数はviewに渡せる以外にも、外部から参照できるという特徴がある
+        # 今回はカリキュラム内容としてインスタンス変数が使用されているが、将来的なことを考えるとviewに渡さないような場合はローカルにしておいた方が無難
+        redirect_to post_images_path
     end
 
     private
