@@ -14,6 +14,8 @@
             <%# <form class="mt-20"> %>
             <%= form_for(@post_image, url: post_images_path) do |f|%>
             <%# post_images_pathがurl:オプションで指定されているのはsubmitした際にcreateアクションを呼び出すため（rails routesでpost_imagesコントローラのPOSTメソッドを参照 %>
+            <%# form_forで出てくるurl:オプションは複数形となっているパスを上手く指定できないform_forのバグのため記述する必要がある %>
+            <%# 単数形のパスであればurl:指定をする必要はない %>
               <% if @post_image.errors.any? %>
                 <%= @post_image.errors.count %><span>件のエラーが発生しました</span>
                 <ul>

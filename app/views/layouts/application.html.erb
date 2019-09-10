@@ -42,7 +42,9 @@
                 <%# ？？ログイン状態（セッションを維持している） だとIDが紐づくので変数を指定しなくてもいいのかも・・・%>
               </li>
               <li class="">
-                <%= link_to "マイページ", "#" %>
+                <%= link_to "マイページ", user_path(current_user.id) %>
+                <%# この場でどの変数が引数として渡されているかわからないため、deviseのヘルプメソッドであるcurrent_userを使う %>
+                <%# sign_inしていればcurrent_userメソッドが使えるので,user_pathをたどって,usersのshowアクションを呼び出すことができる %>
               </li>
             <% else %>
 	      	  	<li class="">
@@ -80,8 +82,7 @@
           </div>
           <div class="col-md-2">
             <div class="col">
-              <h4><%= link_to "マイページ", user_path(current_user.id) %></h4>
-              <%# この場でどの変数が引数として渡されているかわからないため、deviseのヘルプメソッドであるcurrent_userを使う %>
+              <h4>Link</h4>
               <ul>
                 <li>
                   <a href="" title="About">会社概要</a>

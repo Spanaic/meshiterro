@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   end
   # ルーティング時にresourcesをネストする場合はdoで始めて、endで終わる
 
-  resources :users, only: [:show]
+  resources :users, only: [:show, :edit, :update]
 end

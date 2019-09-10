@@ -22,7 +22,8 @@
               </div>
 
               <div class="block-content">
-                <%= image_tag('sample-author1.jpg', class: "img-circle pull-left profile-thumb") %>
+                <%= attachment_image_tag post_image.user, :profile_image, :fill, 60, 60, format: "jpeg", fallback: "no_image_jpg", class: "img-circle pull-left profile-thumb" %>
+                <%# post_imageで抜き出したレコードに紐付いたuserモデルから:profile_imageのカラムデータを表示して %>
                 <h3 class="block-title">
                   <% link_to post_image_path(post_image.id) do %>
                     <%#　？？なぜ.idなの？＝＞　post_image/:id でURLのリンクが生成されるため　%>
