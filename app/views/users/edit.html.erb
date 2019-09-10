@@ -30,6 +30,10 @@
                                             <%= attachment_image_tag @user, :profile_image, :fill, 60,60, class: "img-circle pull-left profile-thumb", fallback: "no_image.jpg" %>
                                         </div>
                                         <label class="control-label sr-only" for="inputEmail">ProfileImage</label>
+                                        <%# 元々form_forの入力箇所はlabelで囲むというルールが昔あった %>
+                                        <%# labelで指定したidの部分はlabel classを変更するだけで簡単にチェックボックスや,ラジオボタンを実装できるというメリットが有る %>
+                                        <%# 今回のattachment_fieldはidも指定されていないので、divでも問題はないが、明示的にlabelが使用されていると思われる。 %>
+
                                         <%# labelタグのforオプションは指定したid:と紐付いて、autofocusやplaceholderオプションを有効に機能させる役割を持つ %>
                                         <%= f.attachment_field :profile_image, placeholder: "プロフィール画像", class: "user-edit-form" %>
                                         <%# ？？autofocusする場所がない、placeholderを記述する箇所もない、それでは何故labelオプションでforが指定されているの？ %>
